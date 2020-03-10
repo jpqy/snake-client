@@ -21,7 +21,7 @@ const connect = function() {
       conn.write('Move: up');
     };
     // Can keep moving snake up by using setInterval
-    // setInterval(up, 500)
+    //setInterval(up, 500)
   });
   conn.on('data', (data) => {
     console.log(data);
