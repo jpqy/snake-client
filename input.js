@@ -7,7 +7,7 @@ let connection;
  */
 
 const setupInput = function(conn) {
-  connection=conn;
+  connection = conn;
   const stdin = process.stdin;
   stdin.setRawMode(true);
   stdin.setEncoding('utf8');
@@ -16,26 +16,39 @@ const setupInput = function(conn) {
   return stdin;
 };
 
+let currentInterval;
 const handleUserInput = (key) => {
+
+  // Interval to move the snake
+  const interval = 50;
+
+  // Clear the previous movement interval if a movement key is pressed
+  if (currentInterval && (key === 'w' || key === 'a' || key === 's' || key === 'd')) {
+    clearInterval(currentInterval);
+  }
+
   // Ctrl+C
   if (key === '\u0003') {
     process.exit();
+
+    // Movement
   } else if (key === 'w') {
-    connection.write('Move: up')
-    //setInterval(connection.write('Move: up'), 500);
+    currentInterval = setInterval(() => connection.write('Move: up'), interval);
   } else if (key === 'a') {
-    connection.write('Move: left');
+    currentInterval = setInterval(() => connection.write('Move: left'), interval);
   } else if (key === 's') {
-    connection.write('Move: down');
+    currentInterval = setInterval(() => connection.write('Move: down'), interval);
   } else if (key === 'd') {
-    connection.write('Move: right');
-  } else if (key === 'z'){
-    connection.write('Say: fuud belong 2 us')
-  } else if (key === 'x'){
-    connection.write('Say: fud get stronk')
-  } else if (key==='c'){
-    connection.write('Say: no crash');
-    //setTimeout(connection.write('Say: so scare'), 500);
+    currentInterval = setInterval(() => connection.write('Move: right'), interval);
+
+    // Banter
+  } else if (key === 'z') {
+    connection.write('Say: fuud belong 2 us');
+  } else if (key === 'x') {
+    connection.write('Say: fud get stronk');
+  } else if (key === 'c') {
+    connection.write('Say: plz no crash...');
+    setTimeout(()=>{connection.write('Say: ...so scare')}, 2000);
   }
 };
 module.exports = { setupInput };
