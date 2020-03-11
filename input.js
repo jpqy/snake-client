@@ -20,7 +20,7 @@ let currentInterval;
 const handleUserInput = (key) => {
 
   // Interval to move the snake
-  const interval = 50;
+  const interval = 100;
 
   // Clear the previous movement interval if a movement key is pressed
   if (currentInterval && (key === 'w' || key === 'a' || key === 's' || key === 'd')) {
@@ -48,7 +48,9 @@ const handleUserInput = (key) => {
     connection.write('Say: fud get stronk');
   } else if (key === 'c') {
     connection.write('Say: plz no crash...');
-    setTimeout(()=>{connection.write('Say: ...so scare')}, 2000);
+    setTimeout(() => {
+      connection.write('Say: ...so scare');
+    }, 2000);
   }
 };
 module.exports = { setupInput };
